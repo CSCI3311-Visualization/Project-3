@@ -32,6 +32,8 @@ export default function lineChartD3(container) {
 
   function update(data, keys) {
     colorScale.domain(keys);
+    xScale.domain([new Date(2004, 11), new Date(2014, 1)]);
+    yScale.domain([0, 150000000000]);
 
     console.log(keys);
 
@@ -40,7 +42,6 @@ export default function lineChartD3(container) {
       const year = e['funded_year'];
       const region = e['company_region'];
       if (keys.includes(region)) {
-        // console.log('he');
         if (!obj[year]) {
           obj[year] = {};
         }
@@ -52,7 +53,6 @@ export default function lineChartD3(container) {
       }
     });
 
-    
     const objKeys = Object.keys(obj);
     objKeys.forEach((key) => {
       obj[key]['year'] = parseInt(key);
@@ -72,30 +72,35 @@ export default function lineChartD3(container) {
         }
         return datum[key];
       })
-      .order(d3.stackOrderNone)
+      .order(d3.stackOrderAscending)
       .offset(d3.stackOffsetNone);
 
-    const series = stack(arr);
+    const stackedData = stack(arr);
 
-    console.log(series);
+    console.log('stackedData', stackedData);
 
     const area = d3
       .area()
-      .x((d) => xScale(d.data.year))
+      .x((d) => xScale(new Date(d.data.year, 1)))
       .y0((d) => yScale(d[0]))
       .y1((d) => yScale(d[1]));
 
-    const areas = group.selectAll('.area').data(series, (d) => d.key);
+    const areas = group.selectAll('.area').data(stackedData, (d) => d.key);
 
     areas
       .enter()
       .append('path')
+      .style('clip-path', 'url(#clip)')
       .attr('class', 'area')
       .merge(areas)
       .attr('d', area)
-      .attr('fill', (d) => 'steelblue');
+      .attr('fill', (d) => colorScale(d.key));
 
     areas.exit().remove();
+
+    // 6. Update axes
+    xAxisGroup.attr('transform', 'translate(0,' + height + ')').call(xAxis);
+    yAxisGroup.call(yAxis);
   }
 
   return {
