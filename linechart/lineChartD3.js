@@ -1,3 +1,5 @@
+import stackProcessing from './stackProcessing.js';
+
 export default function lineChartD3(container) {
   // initialization
   // 1. Create a SVG with the margin convention
@@ -29,13 +31,9 @@ export default function lineChartD3(container) {
   let yAxisGroup = group.append('g').attr('class', 'y-axis axis');
 
   function update(data, keys) {
-    let stack = d3
-      .stack()
-      .keys(keys)
-      .order(d3.stackOrderNone)
-      .offset(d3.stackOffsetNone);
+    stackProcessing(data);
 
-    
+    console.log('end of lineD3 update function');
   }
 
   return {
