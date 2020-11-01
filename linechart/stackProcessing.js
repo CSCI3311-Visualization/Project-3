@@ -1,6 +1,5 @@
 export default function stackProcessing(data, keys) {
-  console.log('stackProcessing', data);
-
+  // Create object with key: funded_month, value: object with keys
   const obj = {};
   data.forEach((e) => {
     const time = +e['funded_month'];
@@ -17,11 +16,13 @@ export default function stackProcessing(data, keys) {
     }
   });
 
+  // Add time key to each object
   const objKeys = Object.keys(obj);
   objKeys.forEach((key) => {
     obj[key]['time'] = parseInt(key);
   });
 
+  // create an array for stack layout
   const arr = [];
   objKeys.forEach((key) => {
     arr.push(obj[key]);

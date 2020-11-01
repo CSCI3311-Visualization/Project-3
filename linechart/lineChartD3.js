@@ -1,8 +1,8 @@
 import stackProcessing from './stackProcessing.js';
 
 export default function lineChartD3(container) {
-  // initialization
-  // 1. Create a SVG with the margin convention
+  ///////// Initialization //////////
+  // Create a SVG with the margin convention
   const margin = { top: 20, right: 20, bottom: 20, left: 100 };
   const width = 1000 - margin.left - margin.right;
   const height = 1000 - margin.top - margin.bottom;
@@ -17,14 +17,14 @@ export default function lineChartD3(container) {
     .append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  // 2. Define scales using scaleTime() and scaleLinear()
+  // Define scales using scaleTime() and scaleLinear()
   // Only specify ranges. Domains will be set in the 'update' function
   const xScale = d3.scaleTime().range([0, width]);
   const yScale = d3.scaleLinear().range([height, 0]);
   const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
-  // 4. Create axes containers
-  const xAxis = d3.axisBottom().scale(xScale);
+  // Create axes containers
+  const xAxis = d3.axisBottom().scale(xScale).ticks(10);
   let xAxisGroup = group.append('g').attr('class', 'x-axis axis');
 
   const yAxis = d3.axisLeft().scale(yScale);
@@ -47,7 +47,7 @@ export default function lineChartD3(container) {
     .attr('width', width)
     .attr('height', height);
 
-  /////////// BRUSH ///////////
+  //////// BRUSH ///////////
   const brush = d3
     .brushX()
     .extent([
@@ -62,7 +62,6 @@ export default function lineChartD3(container) {
     if (!event || !event.sourceEvent) return null;
     if (event.selection) {
       const inverted = event.selection.map(xScale.invert);
-      console.log('inverted', inverted);
       xDomain = inverted;
       update(_data, _keys);
     } else {
@@ -78,7 +77,6 @@ export default function lineChartD3(container) {
   function update(data, keys) {
     if (xDomain) {
       group.select('.brush').call(brush.move, null);
-      console.log('eer');
     }
     _data = data;
     _keys = keys;
@@ -120,20 +118,26 @@ export default function lineChartD3(container) {
       .style('clip-path', 'url(#clip)')
       .attr('class', 'area')
       .merge(areas)
-      .attr('d', area)
       .attr('fill', (d) => colorScale(d.key))
       .on('mouseover', (e, d) => {
         tooltip.text(d.key);
       })
       .on('mouseout', () => {
         tooltip.text('');
-      });
+      })
+      .transition()
+      .duration(1000)
+      .attr('d', area);
 
-    areas.exit().remove();
+    areas.exit().transition().duration(1000).remove();
 
     // Update axes
-    xAxisGroup.attr('transform', 'translate(0,' + height + ')').call(xAxis);
-    yAxisGroup.call(yAxis);
+    xAxisGroup
+      .attr('transform', 'translate(0,' + height + ')')
+      .transition()
+      .duration(1000)
+      .call(xAxis);
+    yAxisGroup.transition().duration(1000).call(yAxis);
   }
 
   return {
