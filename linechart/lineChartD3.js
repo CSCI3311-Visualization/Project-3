@@ -116,7 +116,10 @@ export default function lineChartD3(container) {
       .enter()
       .append('path')
       .style('clip-path', 'url(#clip)')
-      .attr('class', 'area')
+      .attr('class', (d) => {
+        const replaced = d.key.replace(/\s+/g, '-')
+        return 'area ' + replaced
+      })
       .merge(areas)
       .attr('fill', (d) => colorScale(d.key))
       .on('mouseover', (e, d) => {
@@ -138,6 +141,52 @@ export default function lineChartD3(container) {
       .duration(1000)
       .call(xAxis);
     yAxisGroup.transition().duration(1000).call(yAxis);
+
+    //////////////
+    /// Legend ///
+    //////////////
+
+    const highlight = function (d) {
+      console.log('highlight', d);
+      group.selectAll('.area').style('opacity', 0.2);
+      const replaced = d.replace(/\s+/g, '-')
+      group.select('.' + replaced).style('opacity', 1);
+    };
+
+    const noHighlight = function () {
+      group.selectAll('.area').style('opacity', 1);
+    };
+
+    const rectSize = 20;
+
+    group
+      .selectAll('.legend')
+      .data(keys)
+      .enter()
+      .append('rect')
+      .attr('class', 'legend')
+      .attr('x', 400)
+      .attr('y', (d, i) => 10 + i * (rectSize + 5))
+      .attr('width', rectSize)
+      .attr('height', rectSize)
+      .style('fill', (d) => colorScale(d))
+      .on('mouseover', (e, d) => {
+        highlight(d);
+        console.log('YOYOYO legend');
+      })
+      .on('mouseleave', noHighlight);
+
+    group
+      .selectAll('labels')
+      .data(keys)
+      .enter()
+      .append('text')
+      .attr('x', 400 + rectSize * 1.2)
+      .attr('y', (d, i) => 10 + i * (rectSize + 5) + rectSize / 2)
+      .style('fill', (d) => colorScale(d))
+      .text((d) => d)
+      .attr('text-anchor', 'left')
+      .style('alignment-baseline', 'middle');
   }
 
   return {
