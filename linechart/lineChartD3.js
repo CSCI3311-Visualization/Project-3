@@ -31,11 +31,7 @@ export default function lineChartD3(container) {
   function update(data, keys) {
     console.log(keys);
 
-    // const timeFilter = data.filter((el) => {
-    //   +el['funded_month'] < +new Date(2014, 1);
-    // });
-
-    // console.log('timeFilter', timeFilter);
+ 
 
     const filtered = data.filter((el) => el['company_region'] === keys[0]);
     const sumstat = d3.group(filtered, (d) => +d['funded_year']);
