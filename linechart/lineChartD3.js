@@ -1,3 +1,5 @@
+import stackProcessing from './stackProcessing.js';
+
 export default function lineChartD3(container) {
   // initialization
   // 1. Create a SVG with the margin convention
@@ -28,65 +30,110 @@ export default function lineChartD3(container) {
   const yAxis = d3.axisLeft().scale(yScale);
   let yAxisGroup = group.append('g').attr('class', 'y-axis axis');
 
+  // Create a category label (tooltip)
+  const tooltip = svg
+    .append('text')
+    .attr('class', 'tooltip')
+    .style('font-weight', 'bold')
+    .attr('x', 110)
+    .attr('y', 30)
+    .style('text-anchor', 'start');
+
+  //////// Clip Path /////////////
+  group
+    .append('clipPath')
+    .attr('id', 'clip')
+    .append('rect')
+    .attr('width', width)
+    .attr('height', height);
+
+  /////////// BRUSH ///////////
+  const brush = d3
+    .brushX()
+    .extent([
+      [0, 0],
+      [width, height],
+    ])
+    .on('end', brushed);
+
+  group.append('g').attr('class', 'brush').call(brush);
+
+  function brushed(event) {
+    if (!event || !event.sourceEvent) return null;
+    if (event.selection) {
+      const inverted = event.selection.map(xScale.invert);
+      console.log('inverted', inverted);
+      xDomain = inverted;
+      update(_data, _keys);
+    } else {
+      xDomain = [new Date(2004, 11), new Date(2014, 1)];
+      update(_data, _keys);
+    }
+  }
+
+  let _data;
+  let _keys;
+  let xDomain;
+
   function update(data, keys) {
-    console.log(keys);
+    if (xDomain) {
+      group.select('.brush').call(brush.move, null);
+      console.log('eer');
+    }
+    _data = data;
+    _keys = keys;
+    // Process data into D3 stack format
+    const stackProcessedData = stackProcessing(data, keys);
 
- 
+    // Create stack layout (Ascending order)
+    const stack = d3
+      .stack()
+      .keys(keys)
+      .value((datum, key) => {
+        if (isNaN(datum[key])) {
+          return 0;
+        }
+        return datum[key];
+      })
+      .order(d3.stackOrderAscending)
+      .offset(d3.stackOffsetNone);
 
-    const filtered = data.filter((el) => el['company_region'] === keys[0]);
-    const sumstat = d3.group(filtered, (d) => +d['funded_year']);
-    const sums = d3.max(sumstat, (d) => {
-      return d3.sum(d[1], (a) => a['raised_amount_usd']);
-    });
+    // Call layout
+    const series = stack(stackProcessedData);
 
-    // 1. Update the domains of the scales
-    xScale.domain([new Date(2004, 11), new Date(2014, 12)]);
-
-    // d3.max(data, (d) => d['funded_month'])]);
-    yScale.domain([0, sums]);
+    // Set domain for xScale, yScale and colorScale
+    xScale.domain(xDomain ? xDomain : [new Date(2004, 11), new Date(2014, 1)]);
+    yScale.domain([0, 12000000000]);
     colorScale.domain(keys);
 
-    const lines = keys.map((e) => {
-      const category = data.filter((el) => el['company_region'] === e);
-      const grouped = d3.group(category, (d) => +d['funded_year']);
+    const area = d3
+      .area()
+      .x((d) => xScale(new Date(d.data.time)))
+      .y0((d) => yScale(d[0]))
+      .y1((d) => yScale(d[1]));
 
-      // 2. Create lines
-      const line = d3
-        .line()
-        .x(function (d) {
-          console.log('year', d[0]);
-          return xScale(new Date(d[0], 1));
-        })
-        .y(function (d) {
-          let sum = d3.sum(d[1], (da) => da['raised_amount_usd']);
-          // console.log(e + ' hello ' + sum);
-          return yScale(sum);
-        });
+    const areas = group.selectAll('.area').data(series, (d) => d.key);
 
-      group
-        .append('path')
-        .datum(grouped)
-        .attr('class', 'line')
-        .attr('fill', 'none')
-        .attr('stroke', colorScale(e))
-        .attr('stroke-width', 3)
-        // .attr('stroke-linejoin', 'round')
-        // .attr('stroke-linecap', 'round')
-        .on('click', () => {
-          console.log('yoyo', e);
-        })
-        .attr('d', line);
+    areas
+      .enter()
+      .append('path')
+      .style('clip-path', 'url(#clip)')
+      .attr('class', 'area')
+      .merge(areas)
+      .attr('d', area)
+      .attr('fill', (d) => colorScale(d.key))
+      .on('mouseover', (e, d) => {
+        tooltip.text(d.key);
+      })
+      .on('mouseout', () => {
+        tooltip.text('');
+      });
 
-      return line;
-    });
+    areas.exit().remove();
 
-    console.log('line array', lines);
-
-    // 6. Update axes
+    // Update axes
     xAxisGroup.attr('transform', 'translate(0,' + height + ')').call(xAxis);
     yAxisGroup.call(yAxis);
-
-    console.log('end of lineD3');
   }
 
   return {

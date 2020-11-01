@@ -2,25 +2,14 @@ import lineChartD3 from './lineChartD3.js';
 
 d3.csv('investments.csv', d3.autoType).then((data) => {
   console.log('This is line chart', data);
-  let investments = data;
-  console.log('investments', investments);
+
+  // Compute top 5 regions in 2014 YTD
   const regions = {};
-
-  investments.forEach((el) => {
-    //   investments.forEach((el, i) => {
-
+  data.forEach((el) => {
     const cpRegion = el['company_region'];
     if (!cpRegion) return;
 
-    let funded = el['raised_amount_usd'];
-    if (isNaN(funded)) {
-      if (funded) {
-        funded = parseFloat(funded.split(',').join(''));
-      } else {
-        funded = 0;
-      }
-    }
-
+    const funded = el['raised_amount_usd'];
     const year = el['funded_year'];
     if (year === 2014) {
       if (regions[cpRegion]) {
@@ -32,16 +21,13 @@ d3.csv('investments.csv', d3.autoType).then((data) => {
   });
 
   const keys = Object.keys(regions);
+  // Sort by descending order
   keys.sort((a, b) => regions[b] - regions[a]);
-
-  let values = keys.map((e) => {
-    return [e, regions[e]];
-  });
-
-  console.log('REGIONS', regions);
-
-  values = values.slice(0, 5);
+  // console.log('keys', keys.slice(0, 5));
+  // const mapped = keys.slice(0, 5).map((el) => [el, regions[el]]);
+  // console.log('mapped', mapped);
+  // // ["SF Bay Area", "New York City", "Boston", "Bangalore", "London"]
 
   const lineD3 = lineChartD3('.line-container');
-  lineD3.update(data, keys.slice(0, 6));
+  lineD3.update(data, keys.slice(0, 5));
 });
