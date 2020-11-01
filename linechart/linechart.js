@@ -43,5 +43,5 @@ d3.csv('investments.csv', d3.autoType).then((data) => {
   values = values.slice(0, 5);
 
   const lineD3 = lineChartD3('.line-container');
-  lineD3.update(data, keys.slice(0, 5));
+  lineD3.update(data, keys.slice(0, 6));
 });
