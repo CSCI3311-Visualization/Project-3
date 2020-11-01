@@ -30,39 +30,62 @@ export default function lineChartD3(container) {
   const yAxis = d3.axisLeft().scale(yScale);
   let yAxisGroup = group.append('g').attr('class', 'y-axis axis');
 
+  // Create a category label (tooltip)
+  const tooltip = svg
+    .append('text')
+    .attr('class', 'tooltip')
+    .style('font-weight', 'bold')
+    .attr('x', 110)
+    .attr('y', 30)
+    .style('text-anchor', 'start');
+
+  //////// Clip Path /////////////
+  group
+    .append('clipPath')
+    .attr('id', 'clip')
+    .append('rect')
+    .attr('width', width)
+    .attr('height', height);
+
+  /////////// BRUSH ///////////
+  const brush = d3
+    .brushX()
+    .extent([
+      [0, 0],
+      [width, height],
+    ])
+    .on('end', brushed);
+
+  group.append('g').attr('class', 'brush').call(brush);
+
+  function brushed(event) {
+    if (!event || !event.sourceEvent) return null;
+    if (event.selection) {
+      const inverted = event.selection.map(xScale.invert);
+      console.log('inverted', inverted);
+      xDomain = inverted;
+      update(_data, _keys);
+    } else {
+      xDomain = [new Date(2004, 11), new Date(2014, 1)];
+      update(_data, _keys);
+    }
+  }
+
+  let _data;
+  let _keys;
+  let xDomain;
+
   function update(data, keys) {
-    colorScale.domain(keys);
-    xScale.domain([new Date(2004, 11), new Date(2014, 1)]);
-    yScale.domain([0, 150000000000]);
+    if (xDomain) {
+      group.select('.brush').call(brush.move, null);
+      console.log('eer');
+    }
+    _data = data;
+    _keys = keys;
+    // Process data into D3 stack format
+    const stackProcessedData = stackProcessing(data, keys);
 
-    console.log(keys);
-
-    const obj = {};
-    data.forEach((e) => {
-      const year = e['funded_year'];
-      const region = e['company_region'];
-      if (keys.includes(region)) {
-        if (!obj[year]) {
-          obj[year] = {};
-        }
-        if (obj[year][region] !== undefined) {
-          obj[year][region] += e['raised_amount_usd'];
-        } else {
-          obj[year][region] = 0;
-        }
-      }
-    });
-
-    const objKeys = Object.keys(obj);
-    objKeys.forEach((key) => {
-      obj[key]['year'] = parseInt(key);
-    });
-
-    const arr = [];
-    objKeys.forEach((key) => {
-      arr.push(obj[key]);
-    });
-
+    // Create stack layout (Ascending order)
     const stack = d3
       .stack()
       .keys(keys)
@@ -75,17 +98,21 @@ export default function lineChartD3(container) {
       .order(d3.stackOrderAscending)
       .offset(d3.stackOffsetNone);
 
-    const stackedData = stack(arr);
+    // Call layout
+    const series = stack(stackProcessedData);
 
-    console.log('stackedData', stackedData);
+    // Set domain for xScale, yScale and colorScale
+    xScale.domain(xDomain ? xDomain : [new Date(2004, 11), new Date(2014, 1)]);
+    yScale.domain([0, 12000000000]);
+    colorScale.domain(keys);
 
     const area = d3
       .area()
-      .x((d) => xScale(new Date(d.data.year, 1)))
+      .x((d) => xScale(new Date(d.data.time)))
       .y0((d) => yScale(d[0]))
       .y1((d) => yScale(d[1]));
 
-    const areas = group.selectAll('.area').data(stackedData, (d) => d.key);
+    const areas = group.selectAll('.area').data(series, (d) => d.key);
 
     areas
       .enter()
@@ -94,11 +121,17 @@ export default function lineChartD3(container) {
       .attr('class', 'area')
       .merge(areas)
       .attr('d', area)
-      .attr('fill', (d) => colorScale(d.key));
+      .attr('fill', (d) => colorScale(d.key))
+      .on('mouseover', (e, d) => {
+        tooltip.text(d.key);
+      })
+      .on('mouseout', () => {
+        tooltip.text('');
+      });
 
     areas.exit().remove();
 
-    // 6. Update axes
+    // Update axes
     xAxisGroup.attr('transform', 'translate(0,' + height + ')').call(xAxis);
     yAxisGroup.call(yAxis);
   }
