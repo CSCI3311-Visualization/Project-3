@@ -22,7 +22,7 @@
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
     <!-- <script defer src="barchart.js"></script> -->
-    <script defer src="/linechart/linechart.js" type="module"></script>
+    <script defer src="/linechart/stackChart.js" type="module"></script>
   </head>
   <body>
     <h1>
@@ -39,7 +39,18 @@
         </select>
 
       <div class="chart"></div>
-      <div class="line-container"></div>
+
+      <div class="stack-container"></div>
+
+      <div class="stack-option-container">
+        <label for="stack-group-by">Group By</label>
+        <select id="stack-group-by">
+        <option value="region">Company Regions</option>
+        <option value="market">Company Market Type</option>
+        </select>
+      </div>
+
+
         
         
 
