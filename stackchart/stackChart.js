@@ -1,7 +1,7 @@
 import stackChartD3 from './stackChartD3.js';
 import dataProcessor from './stackProcessor.js';
 
-d3.csv('investments.csv', d3.autoType).then((data) => {
+d3.csv('csvAssets/investments.csv', d3.autoType).then((data) => {
   // Compute top 5 regions in 2014 YTD
   const regions = dataProcessor.topFive(data, 'company_region');
   const topRegions = Object.keys(regions);

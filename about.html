@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>About the Project</title>
+
+	<!-- Load CSS files -->
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+	<link rel="stylesheet" href="css/fontawesome.min.css">
+	<link rel="stylesheet" href="css/milligram.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+</head>
+<body>
+	<style>
+		body {
+			background-color: rgb(181, 223, 240);
+		}
+	</style>
+
+	<div class="container">
+		<h1><strong>About</strong></h1>
+		
+		</br>	
+
+		<p>
+		
+				The goal of this project is to examine venture fundings around the globe within 10 years. 
+		</br>	
+		</br>	
+				We chose a <strong>Startup Venture Funding dataset, </strong> from Tableau Public, which contains information about startup companies, rounds, 
+				investments, and acquisitions. Firms need financial backing for many different reasons such as starting a business and paying for new equipment. 
+				Venture Capital financing has helped some of the world's most successful companies to grow and play an increasingly important role in the economy. 
+				Therefore, from doing this project, we hope to learn more about multiple trends of venture funding among different categories in the 10 year timeline within 
+				interactive visualization. 
+		</br>
+		</br>
+			
+				We decided to include two visualizations, interactive bar chart and line chart. 
+				We wanted to leave plently of room for interaction for the users. 
+				Our design rationale is as follows: 
+				<ul>
+				<li>	In the bar chart, the bars show the respective count of funding rounds for every selection chosen by the user.</li>
+				<li>	In the bar chart, the user can choose between different regions, categories, and countries to see the different counts of investment rounds.  </li>
+				<li>	In the bar chart, if the user is interested in a particular year, he or she can also have the option to set the years to show specific data.</li>
+				<li>    In the bar chart, the user can see specific information about the selection by hovering over to each bars.</li>
+				<li>	In the line chart, the lines show the respective amount (USD) of investments over time for every selection chosen by the user. </li>
+				<li> 	In the line chart, the user is able to select the region or country and look at the respective investments over time</li>
+				<li>	In the line chart, the user will also be able to determine the time span for the data they want to see.</li>
+
+				</ul>
+
+		</p>
+		<p>
+				Before constructing the code, we tried sketching the design of the visualization to have a proper framework in mind. This vastly helped
+				us during the development process, as we were able to go back and refer back to the set structure.  
+				The biggest struggle of this project was the pre-processing of the dataset.
+				There were too many datapoints in the dataset, so we divided the file into multiple csv files and edited them to obtain the information we needed.
+				Since there were too many datapoints, we struggled to show how much of the data to the users. After much thought, we decided to show the top 10 selections with the most funding rounds. 
+				However, this dataset allowed us to explore the trends of venture funding in different categories, and it was interesting to see that the hot category for venture funding
+				changes from Software to Biotechnology throughout the years. 
+
+
+				
+		</br></br>The workload distribution among the team members was pretty even. We worked together on brainstorming the big picture framework and helped each other while working separately on different parts.		
+		</p>
+					
+			
+		  </p>
+	
+	</br>
+	</br>
+	
+	<div align = "center"><a href="index.html" id= "back" target="_blank" style = "font-size: 1.5em; color: rgb(27, 88, 202)">Click here to go back</a></div>
+</div>
+
+
+	<!-- Load JS libraries: D3 -->
+	<script src="js/d3.min.js"></script>
+
+	<!-- Your implementation -->
+    <script type="module" src="js/main.js"></script>
+    
+    
+
+</body>
+</html>

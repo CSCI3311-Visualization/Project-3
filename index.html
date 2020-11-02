@@ -18,11 +18,14 @@
    
     <!-- Load Javascript files -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.1.1/d3.min.js"></script>
+    <script defer src="https://unpkg.com/d3-simple-slider"></script>
+
 
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
-    <script defer src="/stackchart/stackChart.js" type="module"></script>
-    <script defer src="/linechart/lineChart.js" type="module"></script>
+    <script defer src="/barchart/barchart.js" type="module"></script>
+    <!-- <script defer src="/stackchart/stackChart.js" type="module"></script> -->
+    <!-- <script defer src="/linechart/lineChart.js" type="module"></script> -->
 
   </head>
   <body>
@@ -31,7 +34,32 @@
     </h1>
     <h2>What are the top regions, categories, investors, and countries by rounds throughout different years?</h2>
 
-      <div class="chart"></div>
+    <br>
+    <br>
+    <img src="img/invest1.jpg" alt="Investment" width="500" height="300">
+    <img src="img/invest2.jpg" alt="Investment" width="500" height="300">
+
+    <br>
+    <br>
+    <div>By Mooyeong, Sung Joon, Brishti, and Ga Young</div>
+    <a href="about.html" id = "about" target="_blank" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
+
+
+    <!-- Bar Chart -->
+    <div class="group-by-container">
+      <label for="group-by" id="label">Group By</label>
+      <select id="group-by">
+        <option value="regions">Regions</option>
+        <option value="markets">Markets</option>
+        <option value="countries">Countries</option>
+      </select>
+    </div>
+    <div id='slider'>Years<br></div>
+
+    <div class="bar-chart-container">
+      <div class='tooltip'></div>
+    </div>
+
 
       <div class="stack-container"></div>
 
@@ -47,5 +75,10 @@
       <div class='line-chart-container'></div>
       <div class="line-tooltip"></div>
       <div id='form-container'></div>
+
+
+      <div>By Mooyeong, Sung Joon, Brishti, and Ga Young</div>
+      <a href="about.html" id = "about" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
+
   </body>
   </html>
