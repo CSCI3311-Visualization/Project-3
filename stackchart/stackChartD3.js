@@ -1,6 +1,6 @@
-import dataProcessor from './dataProcessor.js';
+import dataProcessor from './stackProcessor.js';
 
-export default function lineChartD3(container) {
+export default function stackChartD3(container) {
   ///////// Initialization //////////
   // Create a SVG with the margin convention
   const margin = { top: 20, right: 200, bottom: 20, left: 100 };
@@ -52,6 +52,13 @@ export default function lineChartD3(container) {
     .attr('width', width)
     .attr('height', height);
 
+  ////// on Function //////
+  const listeners = { originalKey: null };
+
+  function on(key, value) {
+    listeners[key] = value;
+  }
+
   //////// BRUSH ///////////
   const brush = d3
     .brushX()
@@ -85,10 +92,8 @@ export default function lineChartD3(container) {
       group.select('.brush').call(brush.move, null);
     }
     _data = data;
-    if (keys.length > 1) {
-      _keys = keys;
-    }
     _category = category;
+    _keys = keys;
     // Process data into D3 stack format
     const stackProcessedData = dataProcessor.stackProcessing(
       data,
@@ -111,12 +116,12 @@ export default function lineChartD3(container) {
 
     // Call layout
     const series = stack(stackProcessedData);
-    const max = d3.max(series, (d) => d3.max(d, (a) => a[1] - a[0]));
- 
+    const max = d3.max(series, (d) => d3.max(d, (a) => a[1]));
+    
     // Set domain for xScale, yScale and colorScale
     xScale.domain(xDomain ? xDomain : [new Date(2004, 11), new Date(2014, 1)]);
     yScale.domain([0, max]);
-    colorScale.domain(_keys);
+    colorScale.domain(listeners.originalKey);
 
     const area = d3
       .area()
@@ -132,18 +137,20 @@ export default function lineChartD3(container) {
       .style('clip-path', 'url(#clip)')
       .attr('class', (d) => {
         const replaced = d.key.replace(/\s+/g, '-');
-        console.log('replaced', replaced);
         return 'area ' + replaced;
       })
+      .attr('d', area)
       .merge(areas)
       .attr('fill', (d) => colorScale(d.key))
       .on('click', (e, d) => {
         if (keys.length === 1) {
-          update(data, _keys, category);
+          update(data, listeners.originalKey, category);
         } else {
           update(data, [d.key], category);
         }
       })
+      .transition()
+      .duration(1000)
       .attr('d', area);
 
     areas.exit().remove();
@@ -171,7 +178,7 @@ export default function lineChartD3(container) {
     };
 
     const rectSize = 30;
-    const legendX = width + 50;
+    const legendX = width + 30;
     const legendY = height - keys.length * 40;
 
     const rects = group.selectAll('.legend').data(keys, (d) => d);
@@ -192,7 +199,7 @@ export default function lineChartD3(container) {
       .on('mouseleave', noHighlight)
       .on('click', (e, d) => {
         if (keys.length === 1) {
-          update(data, _keys, category);
+          update(data, listeners.originalKey, category);
         } else {
           update(data, [d], category);
         }
@@ -231,5 +238,6 @@ export default function lineChartD3(container) {
 
   return {
     update,
+    on,
   };
 }
