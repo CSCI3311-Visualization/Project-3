@@ -24,7 +24,6 @@ d3.csv('rounds.csv', d3.autoType).then((data) => {
   });
 
   const processedData = keys.map((el) => obj[el]);
-  console.log('processedData', processedData);
 
   let fundTypes = [
     'venture',
@@ -38,32 +37,30 @@ d3.csv('rounds.csv', d3.autoType).then((data) => {
   const lineD3 = lineChartD3('.line-chart-container');
   lineD3.update(processedData, fundTypes);
 
+  /// Create labels
   fundTypes.forEach((fundType) => {
     d3.select('#form-container')
+      .append('label')
+      .attr('for', fundType)
+      .attr('class', 'check-label')
+      .text(fundType)
       .append('input')
       .attr('type', 'checkbox')
       .attr('class', 'checkbox')
       .attr('id', fundType)
       .attr('value', fundType)
       .attr('checked', 'true');
-
-    d3.select('#form-container')
-      .append('label')
-      .attr('for', fundType)
-      .text(fundType);
   });
 
   /// Event Listener
-  document.querySelectorAll('.checkbox').forEach((e) => {
-    e.addEventListener('change', function () {
+  document.querySelectorAll('.checkbox').forEach((ch) => {
+    ch.addEventListener('change', function () {
       if (this.checked) {
         fundTypes.push(this.value);
         lineD3.update(processedData, fundTypes);
-        console.log('true');
       } else {
         fundTypes = fundTypes.filter((e) => e !== this.value);
         lineD3.update(processedData, fundTypes);
-        console.log('false');
       }
     });
   });

@@ -117,7 +117,7 @@ export default function stackChartD3(container) {
     // Call layout
     const series = stack(stackProcessedData);
     const max = d3.max(series, (d) => d3.max(d, (a) => a[1]));
-    
+
     // Set domain for xScale, yScale and colorScale
     xScale.domain(xDomain ? xDomain : [new Date(2004, 11), new Date(2014, 1)]);
     yScale.domain([0, max]);

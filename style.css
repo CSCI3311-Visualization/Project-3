@@ -1,3 +1,9 @@
+.stack-option-container {
+  display: flex;
+  /* justify-content:  */
+  /* padding: 50px; */
+}
+
 .line-tooltip {
   position: fixed;
   display: none;
@@ -11,10 +17,24 @@
 
 #form-container {
   display: flex;
-  margin-top: 200px;
-  margin-left: 50px;
+  margin-top: 20px;
+}
+
+.check-label {
+  margin: 10px;
 }
 
 .checkbox {
+  margin: 5px;
+}
+
+#stack-group-by {
+  width: 20%;
   margin: 20px;
+}
+
+.stack-option {
+  margin: 20px;
+  text-align: center;
+  vertical-align: middle;
 }

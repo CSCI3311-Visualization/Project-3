@@ -1,7 +1,7 @@
 export default function lineChartD3(container) {
   ///////// Initialization //////////
   // Create a SVG with the margin convention
-  const margin = { top: 20, right: 200, bottom: 20, left: 100 };
+  const margin = { top: 20, right: 100, bottom: 20, left: 100 };
   const width = 1100 - margin.left - margin.right;
   const height = 800 - margin.top - margin.bottom;
 
@@ -26,9 +26,6 @@ export default function lineChartD3(container) {
   let xAxisGroup = group.append('g').attr('class', 'x-axis axis');
 
   const yAxis = d3.axisLeft().scale(yScale);
-  // .tickFormat(function (d) {
-  //   return d / 1000000000 + ' Billion';
-  // });
   let yAxisGroup = group.append('g').attr('class', 'y-axis axis');
 
   //////// Clip Path /////////////
@@ -43,7 +40,6 @@ export default function lineChartD3(container) {
     // Remove previous graphs for updae
     d3.selectAll('path').remove();
     d3.selectAll('circle').remove();
-    d3.selectAll('text').remove();
 
     // Set domain for xScale, yScale and colorScale
     xScale.domain([new Date(2004, 11), new Date(2014, 1)]);
@@ -118,7 +114,7 @@ export default function lineChartD3(container) {
           const value = d[key];
           tooltip.html('Company: ' + key + '<br />' + 'Count: ' + value);
           const pos = d3.pointer(e, window);
-          tooltip.style('top', pos[1] + 'px');
+          tooltip.style('top', pos[1] - 400 + 'px');
           tooltip.style('left', pos[0] + 'px');
           tooltip.style('display', 'block');
         })

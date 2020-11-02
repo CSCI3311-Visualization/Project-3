@@ -21,8 +21,7 @@
 
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
-    <!-- <script defer src="barchart.js"></script> -->
-    <!-- <script defer src="/stackchart/stackChart.js" type="module"></script> -->
+    <script defer src="/stackchart/stackChart.js" type="module"></script>
     <script defer src="/linechart/lineChart.js" type="module"></script>
 
   </head>
@@ -32,20 +31,12 @@
     </h1>
     <h2>What are the top regions, categories, investors, and countries by rounds throughout different years?</h2>
 
-      <label for="group-by">Group By</label>
-        <select id="group-by">
-        <option value="stores">Regions</option>
-        <option value="revenue">Categories</option>
-        <option value="investors">Investors</option>
-        <option value="countries">Countries</option>
-        </select>
-
       <div class="chart"></div>
 
       <div class="stack-container"></div>
 
       <div class="stack-option-container">
-        <label for="stack-group-by">Group By</label>
+        <label class="stack-option" for="stack-group-by">Group By</label>
         <select id="stack-group-by">
         <option value="region">Company Regions</option>
         <option value="market">Company Market Type</option>
