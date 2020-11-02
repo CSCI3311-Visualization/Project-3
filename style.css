@@ -1,0 +1,20 @@
+.line-tooltip {
+  position: fixed;
+  display: none;
+  min-height: 50px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  opacity: 0.7;
+}
+
+#form-container {
+  display: flex;
+  margin-top: 200px;
+  margin-left: 50px;
+}
+
+.checkbox {
+  margin: 20px;
+}

@@ -40,7 +40,11 @@ export default function lineChartD3(container) {
     .attr('height', height);
 
   function update(data, keys) {
-    console.log('update', data);
+    // Remove previous graphs for updae
+    d3.selectAll('path').remove();
+    d3.selectAll('circle').remove();
+    d3.selectAll('text').remove();
+
     // Set domain for xScale, yScale and colorScale
     xScale.domain([new Date(2004, 11), new Date(2014, 1)]);
     yScale.domain([0, d3.max(data, (d) => d.venture)]);
@@ -68,6 +72,7 @@ export default function lineChartD3(container) {
 
     paths.forEach((path, i) => {
       const totalLength = path.node().getTotalLength();
+
       path
         .attr('stroke-dasharray', totalLength + ' ' + totalLength)
         .attr('stroke-dashoffset', totalLength)
@@ -75,18 +80,6 @@ export default function lineChartD3(container) {
         .duration(4000)
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
-
-      const lastCoord = path.node().getPointAtLength(totalLength);
-
-      setTimeout(() => {
-        group
-          .append('text')
-          .attr('class', 'path-label')
-          .attr('x', lastCoord.x + 10)
-          .attr('y', lastCoord.y)
-          .text(keys[i])
-          .style('fill', colorScale(keys[i]));
-      }, 4500);
     });
 
     // Update axes
@@ -96,6 +89,9 @@ export default function lineChartD3(container) {
       .duration(1000)
       .call(xAxis);
     yAxisGroup.transition().duration(1000).call(yAxis);
+
+    ////// Tooltip /////
+    const tooltip = d3.select('.line-tooltip');
 
     ////// Circles /////
     const circles = keys.map((key) => {
@@ -107,16 +103,27 @@ export default function lineChartD3(container) {
         .attr('class', 'data-circle')
         .attr('r', (d) => {
           if (!d.date || !d[key]) return 0;
-          return 5;
+          return 7;
         })
         .attr('cx', (d) => {
-          console.log(d);
-          if (d.date === undefined || d.date === null) return;
+          if (d.date === undefined || d.date === null) return 0;
           return xScale(d.date);
         })
         .attr('cy', (d) => {
-          if (d[key] === undefined || d[key] === null) return;
+          if (d[key] === undefined || d[key] === null) return 0;
           return yScale(d[key]);
+        })
+        .attr('fill', colorScale(key))
+        .on('mouseenter', (e, d) => {
+          const value = d[key];
+          tooltip.html('Company: ' + key + '<br />' + 'Count: ' + value);
+          const pos = d3.pointer(e, window);
+          tooltip.style('top', pos[1] + 'px');
+          tooltip.style('left', pos[0] + 'px');
+          tooltip.style('display', 'block');
+        })
+        .on('mouseleave', () => {
+          tooltip.style('display', 'none');
         });
     });
   }
