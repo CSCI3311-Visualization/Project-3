@@ -1,4 +1,4 @@
-import dataProcessor from './stackProcessor.js';
+import dataProcessor from '/stackProcessor.js';
 
 export default function stackChartD3(container) {
   ///////// Initialization //////////
