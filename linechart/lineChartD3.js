@@ -1,4 +1,4 @@
-export default function lineChartD3(container) {
+export default function lineChartD3(container, fundTypes) {
   ///////// Initialization //////////
   // Create a SVG with the margin convention
   const margin = { top: 20, right: 100, bottom: 20, left: 100 };
@@ -19,7 +19,7 @@ export default function lineChartD3(container) {
   // Only specify ranges. Domains will be set in the 'update' function
   const xScale = d3.scaleTime().range([0, width]);
   const yScale = d3.scaleLinear().range([height, 0]);
-  const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+  const colorScale = d3.scaleOrdinal(d3.schemeTableau10).domain(fundTypes);
 
   // Create axes containers
   const xAxis = d3.axisBottom().scale(xScale).ticks(10);
@@ -44,7 +44,6 @@ export default function lineChartD3(container) {
     // Set domain for xScale, yScale and colorScale
     xScale.domain([new Date(2004, 11), new Date(2014, 1)]);
     yScale.domain([0, d3.max(data, (d) => d.venture)]);
-    colorScale.domain(keys);
 
     const lines = keys.map((key) => {
       return d3

@@ -34,7 +34,9 @@ d3.csv('csvAssets/rounds-line.csv', d3.autoType).then((data) => {
     'debt_financing',
   ];
 
-  const lineD3 = lineChartD3('.line-chart-container');
+  const colorScale = d3.scaleOrdinal(d3.schemeTableau10).domain(fundTypes);
+
+  const lineD3 = lineChartD3('.line-chart-container', fundTypes);
   lineD3.update(processedData, fundTypes);
 
   /// Create labels
@@ -47,6 +49,7 @@ d3.csv('csvAssets/rounds-line.csv', d3.autoType).then((data) => {
       .attr('for', fundType)
       .attr('class', 'check-label')
       .text(upperCased)
+      .style('color', colorScale(fundType))
       .append('input')
       .attr('type', 'checkbox')
       .attr('class', 'checkbox')
