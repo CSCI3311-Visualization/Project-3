@@ -23,28 +23,27 @@
 
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
-    <script defer src="/barchart/barchart.js" type="module"></script>
-    <script defer src="/stackchart/stackChart.js" type="module"></script>
-    <script defer src="/linechart/lineChart.js" type="module"></script>
+    <script defer src="barchart/barchart.js" type="module"></script>
+    <script defer src="stackchart/stackChart.js" type="module"></script>
+    <script defer src="linechart/lineChart.js" type="module"></script>
 
   </head>
   <body>
-    <h1>
-      Investments Around the World 
-    </h1>
-    <h2>What are the top regions, categories, investors, and countries by rounds throughout different years?</h2>
+    <section class='section-container'>
+      <h1>
+        Investments Around the World 
+      </h1>
+      <h2>What are the top regions, categories, investors, and countries by rounds throughout different years?</h2>
+    </section>
+    <section class='section-container'>
+      <img src="img/invest1.jpg" alt="Investment" width="500" height="300">
+      <img src="img/invest2.jpg" alt="Investment" width="500" height="300">
+    </section>
 
-    <br>
-    <br>
-    <img src="img/invest1.jpg" alt="Investment" width="500" height="300">
-    <img src="img/invest2.jpg" alt="Investment" width="500" height="300">
-
-    <br>
-    <br>
-    <div>By Mooyeong, Sung Joon, Brishti, and Ga Young</div>
-    <a href="about.html" id = "about" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
-
-
+    <section class='section-container'>
+      <h4>By Mooyeong, Sung Joon, Brishti, and Ga Young</h4>
+      <a href="about.html" id = "about" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
+    </section>
     <!-- Bar Chart -->
     <section class="vis-container">
       <div class="bar-chart-container">
@@ -85,5 +84,7 @@
       <div id='form-container' class ="group-by-container"></div>
     </section>
     <!-- End of Line Chart -->
+
+    <h4>That's it! Hope you enjoyed our visualization!</h4>
   </body>
   </html>

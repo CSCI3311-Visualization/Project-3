@@ -32,6 +32,10 @@
   border-radius: 4px;
 }
 
+.section-container {
+  margin: 2% 20%;
+}
+
 /* Sung Joon Park */
 h1,
 h3 {
