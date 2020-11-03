@@ -36,11 +36,12 @@ export default function stackChartD3(container) {
   let yAxisGroup = group.append('g').attr('class', 'y-axis axis');
 
   // Create a category label (tooltip)
-  svg
+  group
     .append('text')
-    .attr('class', 'tooltip')
-    .attr('x', 110)
-    .attr('y', 30)
+    .attr('class', 'y-axis-label')
+    .attr('x', 7)
+    .attr('y', 15)
+    .attr('font-size', '10px')
     .text('USD')
     .style('text-anchor', 'start');
 

@@ -39,11 +39,14 @@ d3.csv('csvAssets/rounds-line.csv', d3.autoType).then((data) => {
 
   /// Create labels
   fundTypes.forEach((fundType) => {
+    let upperCased = fundType.split('_').join(' ');
+    upperCased = upperCased.charAt(0).toUpperCase() + upperCased.slice(1);
+
     d3.select('#form-container')
       .append('label')
       .attr('for', fundType)
       .attr('class', 'check-label')
-      .text(fundType)
+      .text(upperCased)
       .append('input')
       .attr('type', 'checkbox')
       .attr('class', 'checkbox')

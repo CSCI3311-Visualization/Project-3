@@ -36,6 +36,11 @@
   margin: 2% 20%;
 }
 
+/* .check {
+  width: 30px;
+  height: 30px;
+} */
+
 /* Sung Joon Park */
 h1,
 h3 {
@@ -83,6 +88,7 @@ body {
   margin-top: 20px;
   font-weight: 600;
 }
+
 #slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;

@@ -23,7 +23,7 @@
 
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
-    <script defer src="barchart/barchart.js" type="module"></script>
+    <!-- <script defer src="barchart/barchart.js" type="module"></script> -->
     <script defer src="stackchart/stackChart.js" type="module"></script>
     <script defer src="linechart/lineChart.js" type="module"></script>
 
@@ -46,6 +46,7 @@
     </section>
     <!-- Bar Chart -->
     <section class="vis-container">
+      <h2>Top 10 Funding Rounds in Bar Chart</h2>
       <div class="bar-chart-container">
         <div class='tooltip'></div>
       </div>
@@ -57,7 +58,11 @@
             <option value="countries">Countries</option>
         </select>
       </div>
-      <div id='slider'>Years<br></div>
+      <div id='slider'>
+        <p id='slider-value'>
+          Year: 2014
+        </p>
+      </div>
     </section>
 
     <!-- End of Bar Chart -->
@@ -65,6 +70,7 @@
 
     <!-- Stack Chart -->
     <section class="vis-container">
+      <h2>Top 5 Investments trend in Stacked Area Chart</h2>
       <div class="stack-container"></div>
       <div class="group-by-container">
         <label class="stack-option label" for="stack-group-by" >Group By</label>
@@ -79,6 +85,7 @@
 
     <!-- Line Chart -->
     <section class="vis-container">
+      <h2>Fund type count from 2005 - 2014 in Line Chart</h2>
       <div class='line-chart-container'></div>
       <div class="line-tooltip"></div>
       <div id='form-container' class ="group-by-container"></div>

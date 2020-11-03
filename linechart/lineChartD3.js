@@ -112,7 +112,10 @@ export default function lineChartD3(container) {
         .attr('fill', colorScale(key))
         .on('mouseenter', (e, d) => {
           const value = d[key];
-          tooltip.html('Company: ' + key + '<br />' + 'Count: ' + value);
+          let upperCased = key.split('_').join(' ');
+          upperCased = upperCased.charAt(0).toUpperCase() + upperCased.slice(1);
+
+          tooltip.html('Company: ' + upperCased + '<br />' + 'Count: ' + value);
           const pos = d3.pointer(e, window);
           tooltip.style('top', pos[1] - 400 + 'px');
           tooltip.style('left', pos[0] + 'px');

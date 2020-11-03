@@ -59,19 +59,21 @@ export default function BarChart(container) {
     .default(2014)
     .tickFormat(d3.format('d'))
     .step(1)
-    .width(450)
+    .width(800)
+    .height(100)
     .displayValue(true)
     .on('onchange', function (val) {
+      d3.select('p#slider-value').text('Year: ' + val);
       listeners.originalYear = val;
       update(_data, _type, listeners.originalYear);
     });
 
   d3.select('#slider')
     .append('svg')
-    .attr('width', 500)
+    .attr('width', 1000)
     .attr('height', 100)
     .append('g')
-    .attr('transform', 'translate(30,30)')
+    .attr('transform', 'translate(100,10)')
     .call(slide);
 
   function update(data, type, years = listeners.originalYear) {
