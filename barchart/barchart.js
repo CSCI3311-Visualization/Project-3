@@ -1,4 +1,4 @@
-import BarChart from './barchartD3.js';
+import BarChart from 'barchartD3.js';
 
 d3.csv('csvAssets/rounds.csv', d3.autoType).then((data) => {
   let type = 'regions';
