@@ -50,6 +50,10 @@ export default function BarChart(container) {
     listeners[key] = value;
   }
 
+  function get(key){
+    return listeners[key];
+  }
+
   let _data;
   let _type;
   let slide = d3
@@ -187,5 +191,6 @@ export default function BarChart(container) {
   return {
     update,
     on,
+    get
   };
 }
