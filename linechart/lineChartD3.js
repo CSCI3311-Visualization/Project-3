@@ -1,7 +1,7 @@
 export default function lineChartD3(container, fundTypes) {
   ///////// Initialization //////////
   // Create a SVG with the margin convention
-  const margin = { top: 20, right: 100, bottom: 20, left: 100 };
+  const margin = { top: 20, right: 250, bottom: 20, left: 100 };
   const width = 1100 - margin.left - margin.right;
   const height = 800 - margin.top - margin.bottom;
 
@@ -85,8 +85,37 @@ export default function lineChartD3(container, fundTypes) {
       .call(xAxis);
     yAxisGroup.transition().duration(1000).call(yAxis);
 
-    ////// Tooltip /////
-    const tooltip = d3.select('.line-tooltip');
+    //// Tooltip ////
+    const focus = group
+      .append('g')
+      .attr('class', 'g-focus')
+      .style('display', 'none');
+
+    focus.append('circle').attr('r', 5);
+
+    focus
+      .append('rect')
+      .attr('class', 'g-tooltip')
+      .attr('width', 200)
+      .attr('height', 50)
+      .attr('x', 10)
+      .attr('y', -22)
+      .attr('rx', 4)
+      .attr('ry', 4);
+
+    focus
+      .append('text')
+      .attr('class', 'g-tooltip-company')
+      .attr('x', 18)
+      .attr('y', -2);
+
+    focus.append('text').attr('x', 18).attr('y', 18);
+
+    focus
+      .append('text')
+      .attr('class', 'g-tooltip-count')
+      .attr('x', 18)
+      .attr('y', 18);
 
     ////// Circles /////
     const circles = keys.map((key) => {
@@ -113,15 +142,17 @@ export default function lineChartD3(container, fundTypes) {
           const value = d[key];
           let upperCased = key.split('_').join(' ');
           upperCased = upperCased.charAt(0).toUpperCase() + upperCased.slice(1);
-
-          tooltip.html('Company: ' + upperCased + '<br />' + 'Count: ' + value);
-          const pos = d3.pointer(e, window);
-          tooltip.style('top', pos[1] - 400 + 'px');
-          tooltip.style('left', pos[0] + 'px');
-          tooltip.style('display', 'block');
+          focus.attr(
+            'transform',
+            'translate(' + xScale(d.date) + ',' + yScale(d[key]) + ')'
+          );
+          focus.select('.g-tooltip').attr('width', upperCased.length * 8 + 90);
+          focus.style('display', null);
+          focus.select('.g-tooltip-company').text('Company: ' + upperCased);
+          focus.select('.g-tooltip-count').text('Count: ' + value);
         })
         .on('mouseleave', () => {
-          tooltip.style('display', 'none');
+          focus.style('display', 'none');
         });
     });
   }

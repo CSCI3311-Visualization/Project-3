@@ -97,3 +97,22 @@ body {
   height: 25px;
   cursor: pointer;
 }
+
+/* rect tooltip dozeon */
+.g-tooltip {
+  fill: white;
+  stroke: #000;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.g-tooltip-company,
+.g-tooltip-count {
+  text-align: center;
+  font-weight: bold;
+}
+
+.g-focus text {
+  font-size: 14px;
+}

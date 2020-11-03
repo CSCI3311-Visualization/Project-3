@@ -50,7 +50,7 @@ export default function BarChart(container) {
     listeners[key] = value;
   }
 
-  function get(key){
+  function get(key) {
     return listeners[key];
   }
 
@@ -159,8 +159,8 @@ export default function BarChart(container) {
         const pos = d3.pointer(event, window);
         d3.select('.tooltip')
           .style('display', 'inline-block')
-          .style('top', pos[1] - 150 + 'px')
-          .style('left', pos[0] - 80 + 'px')
+          .style('top', pos[1] / 16 + 'em')
+          .style('left', pos[0] / 14 + 'em')
           .html(
             d[0] +
               '<br>' +
@@ -191,6 +191,6 @@ export default function BarChart(container) {
   return {
     update,
     on,
-    get
+    get,
   };
 }
