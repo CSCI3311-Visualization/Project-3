@@ -3,9 +3,9 @@ export default function BarChart(container) {
   // 1. Create a SVG with the margin convention
   const margin = {
     top: 20,
-    right: 20,
+    right: 50,
     bottom: 20,
-    left: 20,
+    left: 50,
   };
   const width = 1000 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
