@@ -1,7 +1,7 @@
 export default function lineChartD3(container, fundTypes) {
   ///////// Initialization //////////
   // Create a SVG with the margin convention
-  const margin = { top: 20, right: 250, bottom: 20, left: 100 };
+  const margin = { top: 20, right: 225, bottom: 20, left: 175 };
   const width = 1100 - margin.left - margin.right;
   const height = 800 - margin.top - margin.bottom;
 
