@@ -5,7 +5,7 @@ export default function BarChart(container) {
     top: 20,
     right: 20,
     bottom: 20,
-    left: 50,
+    left: 20,
   };
   const width = 1000 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -159,8 +159,8 @@ export default function BarChart(container) {
         const pos = d3.pointer(event, window);
         d3.select('.tooltip')
           .style('display', 'inline-block')
-          .style('top', pos[1] / 16 + 'em')
-          .style('left', pos[0] / 14 + 'em')
+          .style('top', pos[1] + 'px')
+          .style('left', pos[0] + 'px')
           .html(
             d[0] +
               '<br>' +

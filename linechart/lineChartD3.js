@@ -85,37 +85,7 @@ export default function lineChartD3(container, fundTypes) {
       .call(xAxis);
     yAxisGroup.transition().duration(1000).call(yAxis);
 
-    //// Tooltip ////
-    const focus = group
-      .append('g')
-      .attr('class', 'g-focus')
-      .style('display', 'none');
-
-    focus.append('circle').attr('r', 5);
-
-    focus
-      .append('rect')
-      .attr('class', 'g-tooltip')
-      .attr('width', 200)
-      .attr('height', 50)
-      .attr('x', 10)
-      .attr('y', -22)
-      .attr('rx', 4)
-      .attr('ry', 4);
-
-    focus
-      .append('text')
-      .attr('class', 'g-tooltip-company')
-      .attr('x', 18)
-      .attr('y', -2);
-
-    focus.append('text').attr('x', 18).attr('y', 18);
-
-    focus
-      .append('text')
-      .attr('class', 'g-tooltip-count')
-      .attr('x', 18)
-      .attr('y', 18);
+    let focus = null;
 
     ////// Circles /////
     const circles = keys.map((key) => {
@@ -139,6 +109,36 @@ export default function lineChartD3(container, fundTypes) {
         })
         .attr('fill', colorScale(key))
         .on('mouseenter', (e, d) => {
+          //// Tooltip ////
+          focus = group
+            .append('g')
+            .attr('class', 'g-focus')
+            .style('display', 'none');
+
+          focus
+            .append('rect')
+            .attr('class', 'g-tooltip')
+            .attr('width', 200)
+            .attr('height', 50)
+            .attr('x', 10)
+            .attr('y', -22)
+            .attr('rx', 4)
+            .attr('ry', 4);
+
+          focus
+            .append('text')
+            .attr('class', 'g-tooltip-company')
+            .attr('x', 18)
+            .attr('y', -2);
+
+          focus.append('text').attr('x', 18).attr('y', 18);
+
+          focus
+            .append('text')
+            .attr('class', 'g-tooltip-count')
+            .attr('x', 18)
+            .attr('y', 18);
+
           const value = d[key];
           let upperCased = key.split('_').join(' ');
           upperCased = upperCased.charAt(0).toUpperCase() + upperCased.slice(1);
@@ -152,7 +152,9 @@ export default function lineChartD3(container, fundTypes) {
           focus.select('.g-tooltip-count').text('Count: ' + value);
         })
         .on('mouseleave', () => {
-          focus.style('display', 'none');
+          if (focus !== null) {
+            d3.select('.g-focus').remove();
+          }
         });
     });
   }

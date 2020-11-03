@@ -72,7 +72,7 @@ body {
 }
 
 .tooltip {
-  position: fixed;
+  position: absolute;
   display: none;
   border-bottom: 1px dotted black;
   font-size: 13px;
