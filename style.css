@@ -1,9 +1,3 @@
-.stack-option-container {
-  display: flex;
-  /* justify-content:  */
-  /* padding: 50px; */
-}
-
 .line-tooltip {
   position: fixed;
   display: none;
@@ -28,15 +22,14 @@
   margin: 5px;
 }
 
-#stack-group-by {
-  width: 20%;
-  margin: 20px;
-}
-
-.stack-option {
-  margin: 20px;
-  text-align: center;
-  vertical-align: middle;
+.vis-container {
+  margin: 1% 20%;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 50px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 /* Sung Joon Park */
@@ -50,12 +43,12 @@ body {
   text-align: center;
 }
 
-#group-by {
+.group-by {
   width: 20%;
   margin-left: 10px;
 }
 
-#label {
+.label {
   margin-left: 20px;
   margin-top: 5px;
   margin-right: 10px;

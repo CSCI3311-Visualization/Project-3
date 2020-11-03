@@ -24,8 +24,8 @@
     <!-- Your code -->
     <link rel="stylesheet" href="style.css" />
     <script defer src="/barchart/barchart.js" type="module"></script>
-    <!-- <script defer src="/stackchart/stackChart.js" type="module"></script> -->
-    <!-- <script defer src="/linechart/lineChart.js" type="module"></script> -->
+    <script defer src="/stackchart/stackChart.js" type="module"></script>
+    <script defer src="/linechart/lineChart.js" type="module"></script>
 
   </head>
   <body>
@@ -42,43 +42,48 @@
     <br>
     <br>
     <div>By Mooyeong, Sung Joon, Brishti, and Ga Young</div>
-    <a href="about.html" id = "about" target="_blank" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
+    <a href="about.html" id = "about" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
 
 
     <!-- Bar Chart -->
-    <div class="group-by-container">
-      <label for="group-by" id="label">Group By</label>
-      <select id="group-by">
-        <option value="regions">Regions</option>
-        <option value="markets">Markets</option>
-        <option value="countries">Countries</option>
-      </select>
-    </div>
-    <div id='slider'>Years<br></div>
-
-    <div class="bar-chart-container">
-      <div class='tooltip'></div>
-    </div>
-
-
-      <div class="stack-container"></div>
-
-      <div class="stack-option-container">
-        <label class="stack-option" for="stack-group-by">Group By</label>
-        <select id="stack-group-by">
-        <option value="region">Company Regions</option>
-        <option value="market">Company Market Type</option>
+    <section class="vis-container">
+      <div class="bar-chart-container">
+        <div class='tooltip'></div>
+      </div>
+      <div class="group-by-container">
+        <label for="group-by" class="label">Group By</label>
+        <select id="group-by" class="group-by">
+            <option value="regions">Regions</option>
+            <option value="markets">Markets</option>
+            <option value="countries">Countries</option>
         </select>
       </div>
+      <div id='slider'>Years<br></div>
+    </section>
+
+    <!-- End of Bar Chart -->
+      
+
+    <!-- Stack Chart -->
+    <section class="vis-container">
+      <div class="stack-container"></div>
+      <div class="group-by-container">
+        <label class="stack-option label" for="stack-group-by" >Group By</label>
+        <select id="stack-group-by"  class="group-by">
+          <option value="region">Company Regions</option>
+          <option value="market">Company Market Type</option>
+        </select>
+      </div>
+    </section>
+    <!-- End of Stack Chart -->
 
 
+    <!-- Line Chart -->
+    <section class="vis-container">
       <div class='line-chart-container'></div>
       <div class="line-tooltip"></div>
-      <div id='form-container'></div>
-
-
-      <div>By Mooyeong, Sung Joon, Brishti, and Ga Young</div>
-      <a href="about.html" id = "about" style =  "color:rgb(79, 176, 214); font-size: 1.4em">Click here to see the project info!</a>
-
+      <div id='form-container' class ="group-by-container"></div>
+    </section>
+    <!-- End of Line Chart -->
   </body>
   </html>
