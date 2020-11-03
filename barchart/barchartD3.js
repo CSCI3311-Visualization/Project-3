@@ -153,6 +153,7 @@ export default function BarChart(container) {
     bars
       .enter()
       .append('rect')
+      .attr('x', (d) => xScale(d[0]) + xScale.bandwidth() / 2)
       .attr('y', height)
       .merge(bars)
       .on('mouseenter', (event, d) => {
