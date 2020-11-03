@@ -62,6 +62,7 @@ li {
 }
 
 #last {
-  margin-left: 45%;
-  margin-bottom: 3%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2%;
 }
